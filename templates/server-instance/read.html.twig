@@ -1,12 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Server Instanz Details</h2>
-    <p>Name:</p>
-    <p>{{ serverInstance.name }}</p>
-    <p>Aktualisiert am:</p>
-    <p>{% if serverInstance.updatedAt %}{{ serverInstance.updatedAt|date('H:i:s d.m.Y') }}{% else %}Noch nie aktualisiert{% endif %}</p>
-    <p>Erstellt am:</p>
-    <p>{{ serverInstance.createdAt|date('H:i:s d.m.Y') }}</p>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <a href="{{ path('app_server_instance_list') }}" class="my-3">Zurück zur Liste</a>
+            <h2 class="my-5">Server Instanz Details</h2>
+            <dl class="row">
+                <dt>Name</dt>
+                <dd>{{ serverInstance.name }}</dd>
+                <dt>Aktualisiert am</dt>
+                <dd>{% if serverInstance.updatedAt %}{{ serverInstance.updatedAt|date('H:i:s d.m.Y') }}{% else %}Noch nie aktualisiert{% endif %}</dd>
+                <dt>Erstellt am</dt>
+                <dd>{{ serverInstance.createdAt|date('H:i:s d.m.Y') }}</dd>
+            </dl>
+            <hr />
+            <div class="row justify-content-center">
+                <div class="col">
+                    <a href="{{ path('app_server_instance_update', {id: serverInstance.id}) }}" class="btn btn-sm btn-outline-dark">Edit</a>
+                </div>
+                <div class="col">
+                    <a href="{{ path('app_server_instance_delete', {id: serverInstance.id}) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Soll diese Server Instanz wirklich gelöscht werden?')">Löschen</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+//1. Entity erweitern mit make:entity -> String 32 Zeichen NULLABLE
+//2. Migration erstellen und ausführen
+//3. FormType erweitern mit passendem Type
+//4. View anpassen (Detail/Tabelle)
+//5. Validation!!!
+
 

@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Server Instanz bearbeiten</h2>
-    <a href="{{ path('app_server_instance_list') }}">zurück zur Liste</a>
-
-    {{ form(serverInstanceForm) }}
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <a href="{{ path('app_server_instance_list') }}">zurück zur Liste</a>
+            <h2 class="my-5">Server Instanz bearbeiten</h2>
+            {{ form(serverInstanceForm) }}
+        </div>
+    </div>
 {% endblock %}

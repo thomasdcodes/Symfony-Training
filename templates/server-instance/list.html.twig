@@ -1,26 +1,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Server Instanzen</h2>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h2>Server Instanzen</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for instance in instances %}
+            <table class="table">
+                <thead>
                 <tr>
-                    <td>{{ instance.name }}</td>
-                    <td>
-                        <a href="{{ path('app_server_instance_update', {id: instance.id}) }}">edit</a> |
-                        <a href="{{ path('app_server_instance_read', {id: instance.id}) }}">detail</a> |
-                        <a href="{{ path('app_server_instance_delete', {id: instance.id}) }}" onclick="return confirm('Soll diese Server Instanz wirklich gelöscht werden?')">löschen</a>
-                    </td>
+                    <th>Name</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                {% for instance in instances %}
+                    <tr>
+                        <td>{{ instance.name }}</td>
+                        <td class="text-end">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                Aktionen
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{{ path('app_server_instance_update', {id: instance.id}) }}">Bearbeiten</a>
+                                </li>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('app_server_instance_read', {id: instance.id}) }}">Detailansicht</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('app_server_instance_delete', {id: instance.id}) }}"
+                                       onclick="return confirm('Soll diese Server Instanz wirklich gelöscht werden?')">Löschen</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
