@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Server Instanz bearbeiten</h2>
+    <a href="{{ path('app_server_instance_list') }}">zurück zur Liste</a>
+
+    {{ form(serverInstanceForm) }}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Server Instanzen</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for instance in instances %}
+                <tr>
+                    <td>{{ instance.name }}</td>
+                    <td>
+                        <a href="{{ path('app_server_instance_update', {id: instance.id}) }}">edit</a> |
+                        <a href="{{ path('app_server_instance_read', {id: instance.id}) }}">detail</a> |
+                        <a href="{{ path('app_server_instance_delete', {id: instance.id}) }}" onclick="return confirm('Soll diese Server Instanz wirklich gelöscht werden?')">löschen</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

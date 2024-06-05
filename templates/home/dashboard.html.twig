@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% for instance in instances %}
+    <h2>{{ instance.name }}</h2>
+{% endfor %}
+
+<footer>
+    <a href="{{ path('app_home_impressum') }}">Impressum</a>
+</footer>
+
+{% endblock %}

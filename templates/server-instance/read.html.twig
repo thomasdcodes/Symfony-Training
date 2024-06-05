@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Server Instanz Details</h2>
+    <p>Name:</p>
+    <p>{{ serverInstance.name }}</p>
+    <p>Aktualisiert am:</p>
+    <p>{% if serverInstance.updatedAt %}{{ serverInstance.updatedAt|date('H:i:s d.m.Y') }}{% else %}Noch nie aktualisiert{% endif %}</p>
+    <p>Erstellt am:</p>
+    <p>{{ serverInstance.createdAt|date('H:i:s d.m.Y') }}</p>
+{% endblock %}
+
