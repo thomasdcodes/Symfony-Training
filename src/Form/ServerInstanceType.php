@@ -8,6 +8,7 @@ use App\Entity\ServerInstance;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +17,15 @@ class ServerInstanceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'label' => 'Name des Servers',
+                'help' => 'Der interne Name des Servers',
+            ])
+            ->add('baseUrl', UrlType::class, [
+                'label' => 'Base-Url',
+                'help' => 'Die URL zum Server',
+                'default_protocol' => 'https',
+            ])
             ->add('submit', SubmitType::class)
         ;
     }

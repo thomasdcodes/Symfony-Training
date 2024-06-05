@@ -8,6 +8,8 @@
             <dl class="row">
                 <dt>Name</dt>
                 <dd>{{ serverInstance.name }}</dd>
+                <dt>Base-Url</dt>
+                <dd>{% if serverInstance.baseUrl %}<a href="{{ serverInstance.baseUrl }}" target="_blank">{{ serverInstance.baseUrl }}</a> {% endif %}</dd>
                 <dt>Aktualisiert am</dt>
                 <dd>{% if serverInstance.updatedAt %}{{ serverInstance.updatedAt|date('H:i:s d.m.Y') }}{% else %}Noch nie aktualisiert{% endif %}</dd>
                 <dt>Erstellt am</dt>
@@ -26,10 +28,10 @@
     </div>
 {% endblock %}
 
-//1. Entity erweitern mit make:entity -> String 32 Zeichen NULLABLE
-//2. Migration erstellen und ausführen
-//3. FormType erweitern mit passendem Type
-//4. View anpassen (Detail/Tabelle)
-//5. Validation!!!
-
-
+{#
+1. Entity erweitern mit make:entity -> String 32 Zeichen NULLABLE -> Fertig
+2. Migration erstellen und ausführen -> Fertig
+3. FormType erweitern mit passendem Type -> Fertig
+4. View anpassen (Detail/Tabelle) -> Fertig
+5. Validation!!!
+#}

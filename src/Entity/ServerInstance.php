@@ -22,6 +22,9 @@ class ServerInstance
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $baseUrl = null;
+
     public function __construct()
     {
         $this->initCreatedAt();
@@ -41,5 +44,17 @@ class ServerInstance
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getBaseUrl(): ?string
+    {
+        return $this->baseUrl;
+    }
+
+    public function setBaseUrl(?string $baseUrl): static
+    {
+        $this->baseUrl = $baseUrl;
+
+        return $this;
     }
 }
