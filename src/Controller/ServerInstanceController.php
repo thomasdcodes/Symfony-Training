@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route(path: '/server-instance', name: 'app_server_instance_')]
 class ServerInstanceController extends AbstractController
@@ -67,7 +68,7 @@ class ServerInstanceController extends AbstractController
     }
 
     #[Route(path: '/update/{id}', name: 'update', methods: ['GET', 'POST'])]
-    public function update(int $id, Request $request): Response
+    public function update(ValidatorInterface $validator, int $id, Request $request): Response
     {
         $serverInstance = $this->serverInstanceRepository->find($id);
 

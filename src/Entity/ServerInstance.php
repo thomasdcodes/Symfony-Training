@@ -8,6 +8,7 @@ use App\Entity\Trait\CreatedAtTrait;
 use App\Entity\Trait\UpdatedAtTrait;
 use App\Repository\ServerInstanceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ServerInstanceRepository::class)]
 class ServerInstance
@@ -20,9 +21,12 @@ class ServerInstance
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 50)]
     private ?string $name = null;
 
     #[ORM\Column(length: 32, nullable: true)]
+    #[Assert\Length(min: 12, max: 32)]
     private ?string $baseUrl = null;
 
     public function __construct()

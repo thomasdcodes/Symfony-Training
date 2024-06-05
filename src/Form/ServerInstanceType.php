@@ -23,6 +23,7 @@ class ServerInstanceType extends AbstractType
             ])
             ->add('baseUrl', UrlType::class, [
                 'label' => 'Base-Url',
+                'required' => false,
                 'help' => 'Die URL zum Server',
                 'default_protocol' => 'https',
             ])
