@@ -13,7 +13,10 @@
         {% endblock %}
     </head>
     <body>
-        {% include 'includes/_navigation.html.twig' %}
+        {%  if app.user %}
+            {% include 'includes/_navigation.html.twig' %}
+        {% endif %}
+
         {% include 'includes/_flash-messages.html.twig' %}
         <div class="container">
             {% block body %}{% endblock %}
