@@ -70,6 +70,11 @@ class ServerInstance
         return $this->crawlings;
     }
 
+    public function getCrawlingCount(): int
+    {
+        return $this->crawlings->count();
+    }
+
     public function addCrawling(Crawling $crawling): static
     {
         if (!$this->crawlings->contains($crawling)) {

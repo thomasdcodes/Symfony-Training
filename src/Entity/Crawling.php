@@ -9,6 +9,7 @@ use App\Repository\CrawlingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CrawlingRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Crawling
 {
     use IdTrait, CreatedAtTrait, UpdatedAtTrait;
@@ -16,7 +17,7 @@ class Crawling
     #[ORM\Column(length: 255)]
     private ?string $target = null;
 
-    #[ORM\ManyToOne(inversedBy: 'crawlings')]
+    #[ORM\ManyToOne(inversedBy: 'crawlings', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?ServerInstance $serverInstance = null;
 

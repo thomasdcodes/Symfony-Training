@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crawling index{% endblock %}
+
+{% block body %}
+    <h1>Crawling index</h1>
+
+    <a href="{{ path('app_crawling_new') }}">Create new</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Target</th>
+                <th>Id</th>
+                <th>Server-Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for crawling in crawlings %}
+            <tr>
+                <td>{{ crawling.target }}</td>
+                <td>{{ crawling.id }}</td>
+                <td>{{ crawling.serverInstance.name }}</td>
+                <td>
+                    <a href="{{ path('app_crawling_show', {'id': crawling.id}) }}">show</a>
+                    <a href="{{ path('app_crawling_edit', {'id': crawling.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

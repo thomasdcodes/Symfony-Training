@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Crawling{% endblock %}
+
+{% block body %}
+    <h1>Edit Crawling</h1>
+
+    {{ include('crawling/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_crawling_index') }}">back to list</a>
+
+    {{ include('crawling/_delete_form.html.twig') }}
+{% endblock %}
