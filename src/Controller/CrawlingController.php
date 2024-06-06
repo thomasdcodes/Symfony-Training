@@ -11,11 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/crawling')]
+#[Route(path: '/crawling')]
 class CrawlingController extends AbstractController
 {
-    #[Route('/', name: 'app_crawling_index', methods: ['GET'])]
+    #[Route(path: '/', name: 'app_crawling_index', methods: ['GET'])]
     public function index(CrawlingRepository $crawlingRepository): Response
     {
         return $this->render('crawling/index.html.twig', [
@@ -26,6 +27,11 @@ class CrawlingController extends AbstractController
     #[Route('/new', name: 'app_crawling_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('234234')) {
+            $this->addFlash('warning', 'Dir fehlen die Rechte. Frag Admin');
+            return $this->redirectToRoute('app_home_dashboard');
+        }
+
         $crawling = new Crawling();
         $form = $this->createForm(CrawlingType::class, $crawling);
         $form->handleRequest($request);
@@ -72,7 +78,7 @@ class CrawlingController extends AbstractController
     #[Route('/{id}', name: 'app_crawling_delete', methods: ['POST'])]
     public function delete(Request $request, Crawling $crawling, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$crawling->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $crawling->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($crawling);
             $entityManager->flush();
         }

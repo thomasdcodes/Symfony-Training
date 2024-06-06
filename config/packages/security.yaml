@@ -41,6 +41,7 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
+        - { path: ^/crawling, roles: ROLE_CRAWLING }
 
 when@test:
     security:
