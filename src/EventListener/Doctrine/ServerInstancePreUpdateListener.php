@@ -13,6 +13,6 @@ class ServerInstancePreUpdateListener
 {
     public function onPreUpdate(ServerInstance $serverInstance): void
     {
-        $serverInstance->setUpdatedAt(new \DateTimeImmutable());
+
     }
 }

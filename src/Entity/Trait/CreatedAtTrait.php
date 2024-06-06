@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Trait;
 
+use App\Factory\DateTimeFactory;
 use Doctrine\ORM\Mapping as ORM;
 
 trait CreatedAtTrait
@@ -16,8 +17,9 @@ trait CreatedAtTrait
         return $this->createdAt;
     }
 
-    private function initCreatedAt(): void
+    #[ORM\PrePersist]
+    public function initCreatedAt(): void
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = DateTimeFactory::createNowImmutable();
     }
 }
