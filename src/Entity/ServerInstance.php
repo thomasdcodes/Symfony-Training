@@ -34,6 +34,9 @@ class ServerInstance
     #[ORM\OneToMany(targetEntity: Crawling::class, mappedBy: 'serverInstance', orphanRemoval: true)]
     private Collection $crawlings;
 
+    #[ORM\Column(length: 20)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->crawlings = new ArrayCollection();
@@ -93,6 +96,18 @@ class ServerInstance
                 $crawling->setServerInstance(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

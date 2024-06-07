@@ -21,4 +21,18 @@ class ServerInstanceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ServerInstance::class);
     }
+
+    /**
+     * @return ServerInstance[]
+     */
+    public function findActive(): array
+    {
+        return $this->createQueryBuilder('si')
+            ->andWhere('si.status = :status')
+            ->setParameter('status', 'active')
+            ->orderBy('si.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -1,0 +1,20 @@
+framework:
+  workflows:
+    server_instance:
+      type: 'state_machine'
+      marking_store:
+        type: 'method'
+        property: 'status'
+      supports:
+        - App\Entity\ServerInstance
+      initial_marking: 'active'
+      places:
+        - 'active'
+        - 'deleted'
+      transitions:
+        active_to_delete:
+          from: 'active'
+          to: 'deleted'
+        deleted_to_active:
+          from: 'deleted'
+          to: 'active'

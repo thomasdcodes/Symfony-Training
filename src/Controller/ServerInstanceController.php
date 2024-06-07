@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\ServerInstance;
+use App\Event\ServerInstanceToDeleteEvent;
+use App\Factory\ServerInstanceFactory;
 use App\Form\ServerInstanceType;
 use App\Repository\ServerInstanceRepository;
+use App\Security\Voter\ServerInstanceVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Workflow\WorkflowInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Route(path: '/server-instance', name: 'app_server_instance_')]
 class ServerInstanceController extends AbstractController
@@ -29,14 +33,14 @@ class ServerInstanceController extends AbstractController
     public function list(): Response
     {
         return $this->render('server-instance/list.html.twig', [
-            'instances' => $this->serverInstanceRepository->findAll(),
+            'instances' => $this->serverInstanceRepository->findActive(),
         ]);
     }
 
     #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
-    public function create(Request $request): Response
+    public function create(Request $request, ServerInstanceFactory $factory): Response
     {
-        $form = $this->createForm(ServerInstanceType::class, new ServerInstance());
+        $form = $this->createForm(ServerInstanceType::class, $factory->createInstance());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,6 +62,8 @@ class ServerInstanceController extends AbstractController
     {
         $serverInstance = $this->serverInstanceRepository->find($id);
 
+        $this->denyAccessUnlessGranted(ServerInstanceVoter::VIEW, $serverInstance);
+
         if (!$serverInstance instanceof ServerInstance) {
             throw new EntityNotFoundException();
         }
@@ -68,7 +74,7 @@ class ServerInstanceController extends AbstractController
     }
 
     #[Route(path: '/update/{id}', name: 'update', methods: ['GET', 'POST'])]
-    public function update(ValidatorInterface $validator, int $id, Request $request): Response
+    public function update(int $id, Request $request): Response
     {
         $serverInstance = $this->serverInstanceRepository->find($id);
 
@@ -87,14 +93,22 @@ class ServerInstanceController extends AbstractController
     }
 
     #[Route(path: '/delete/{id}', name: 'delete', methods: ['GET'])]
-    public function delete(int $id): Response
+    public function delete(
+        int                      $id,
+        EventDispatcherInterface $eventDispatcher
+    ): Response
     {
         $serverInstance = $this->serverInstanceRepository->find($id);
 
-        $this->entityManager->remove($serverInstance);
-        $this->entityManager->flush();
+        $event = new ServerInstanceToDeleteEvent($serverInstance);
+        $eventDispatcher->dispatch($event, $event::NAME);
 
-        $this->addFlash('success', 'Server-Instanz wurde erfolgreich entfernt.');
-        return $this->redirectToRoute('app_server_instance_list');
+        if($event->isTransitionSuccessful()) {
+            $this->addFlash('success', 'Server-Instanz wurde erfolgreich entfernt.');
+            return $this->redirectToRoute('app_server_instance_list');
+        } else {
+            $this->addFlash('warning', 'Server-Instanz darf nicht gelöscht werden.');
+            return $this->redirectToRoute('app_crawling_show', ['id' => $id]);
+        }
     }
 }
